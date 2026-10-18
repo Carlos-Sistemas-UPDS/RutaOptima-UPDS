@@ -29,3 +29,16 @@ nodo1.Siguiente = nodo2;
 
 Console.WriteLine(
     $"{nodo1.Dato.Nombre} -> {nodo1.Siguiente.Dato.Nombre}");
+
+//clase ListaSimple
+Console.WriteLine("\nPRUEBA DE LISTA ENLAZADA:");
+
+ListaSimple<string> lista = new ListaSimple<string>();
+
+lista.AgregarAlFinal("Parada A");
+lista.AgregarAlFinal("Parada B");
+lista.AgregarAlFinal("Parada C");
+
+lista.Mostrar();
+
+Console.WriteLine($"Total de paradas: {lista.Contar()}");
