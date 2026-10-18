@@ -1,0 +1,20 @@
+﻿using RutaOptima;
+
+Console.WriteLine("==================================");
+Console.WriteLine("         RUTAOPTIMA");
+Console.WriteLine(" Transporte Publico de La Paz");
+Console.WriteLine("==================================");
+
+Parada[] paradas = new Parada[3];
+
+paradas[0] = new Parada(1, "Parada A", "Bus");
+paradas[1] = new Parada(2, "Parada B", "PumaKatari");
+paradas[2] = new Parada(3, "Estacion C", "Teleferico");
+
+Console.WriteLine("\nPARADAS REGISTRADAS:");
+
+for (int i = 0; i < paradas.Length; i++)
+{
+    Console.WriteLine(
+        $"{paradas[i].Id}. {paradas[i].Nombre} - {paradas[i].Tipo}");
+}
