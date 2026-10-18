@@ -18,3 +18,14 @@ for (int i = 0; i < paradas.Length; i++)
     Console.WriteLine(
         $"{paradas[i].Id}. {paradas[i].Nombre} - {paradas[i].Tipo}");
 }
+
+//clase nodo
+Console.WriteLine("\nPRUEBA DE NODOS:");
+
+Nodo<Parada> nodo1 = new Nodo<Parada>(paradas[0]);
+Nodo<Parada> nodo2 = new Nodo<Parada>(paradas[1]);
+
+nodo1.Siguiente = nodo2;
+
+Console.WriteLine(
+    $"{nodo1.Dato.Nombre} -> {nodo1.Siguiente.Dato.Nombre}");
