@@ -42,3 +42,14 @@ lista.AgregarAlFinal("Parada C");
 lista.Mostrar();
 
 Console.WriteLine($"Total de paradas: {lista.Contar()}");
+
+//clase conexion
+
+Console.WriteLine("\nPRUEBA DE CONEXION:");
+
+Conexion conexion1 = new Conexion(paradas[1], 2.5, "Linea de prueba");
+
+Console.WriteLine($"Origen: {paradas[0].Nombre}");
+Console.WriteLine($"Destino: {conexion1.Destino.Nombre}");
+Console.WriteLine($"Distancia: {conexion1.DistanciaKm} km");
+Console.WriteLine($"Linea: {conexion1.Linea}");
