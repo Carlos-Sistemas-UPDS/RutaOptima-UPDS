@@ -65,6 +65,35 @@ grafo.AgregarConexion(2, 3, 1.2, "Linea de prueba");
 
 grafo.MostrarConexiones();
 
+//prueba de algoritmo BFS
+
+Console.WriteLine("\nPRUEBA DEL ALGORITMO BFS:");
+
+Parada[] rutaBFS = grafo.BuscarRutaBFS(1, 3);
+
+if (rutaBFS.Length == 0)
+{
+    Console.WriteLine("No se encontro una ruta.");
+}
+else
+{
+    Console.WriteLine("Ruta encontrada:");
+
+    for (int i = 0; i < rutaBFS.Length; i++)
+    {
+        Console.Write(rutaBFS[i].Nombre);
+
+        if (i < rutaBFS.Length - 1)
+        {
+            Console.Write(" -> ");
+        }
+    }
+
+    Console.WriteLine();
+    Console.WriteLine($"Conexiones recorridas: {rutaBFS.Length - 1}");
+}
+
+
 //clase ColaConNodos
 
 Console.WriteLine("\nPRUEBA DE COLA CON NODOS:");
@@ -84,3 +113,27 @@ while (!cola.EstaVacia())
 }
 
 Console.WriteLine($"Elementos restantes: {cola.Contar()}");
+
+
+Console.WriteLine("\nPRUEBAS ADICIONALES BFS:");
+
+// Prueba 1: mismo origen y destino
+Console.WriteLine($"Mismo origen: {grafo.BuscarRutaBFS(2, 2).Length} parada");
+
+// Prueba 2: una parada inexistente
+Console.WriteLine($"Parada inexistente: {grafo.BuscarRutaBFS(1, 99).Length} paradas");
+
+// Prueba 3: paradas sin conexiones
+GrafoTransporte sinConexiones = new GrafoTransporte(paradas);
+Console.WriteLine($"Sin conexiones: {sinConexiones.BuscarRutaBFS(1, 3).Length} paradas");
+
+// Prueba 4: dos caminos alternativos
+GrafoTransporte alternativo = new GrafoTransporte(paradas);
+
+alternativo.AgregarConexion(1, 2, 2.5, "Prueba");
+alternativo.AgregarConexion(2, 3, 1.2, "Prueba");
+alternativo.AgregarConexion(1, 3, 9.0, "Prueba");
+
+Parada[] rutaAlternativa = alternativo.BuscarRutaBFS(1, 3);
+
+Console.WriteLine($"Conexiones de la ruta elegida: {rutaAlternativa.Length - 1}");

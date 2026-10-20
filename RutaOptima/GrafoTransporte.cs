@@ -82,4 +82,83 @@ public class GrafoTransporte
             }
         }
     }
+
+    public Parada[] BuscarRutaBFS(int idOrigen, int idDestino)
+    {
+        int origen = BuscarIndice(idOrigen);
+        int destino = BuscarIndice(idDestino);
+
+        // Verificar que existan las dos paradas
+        if (origen == -1 || destino == -1)
+        {
+            return Array.Empty<Parada>();
+        }
+
+        // Preparar arreglos para la busqueda
+        bool[] visitados = new bool[paradas.Length];
+        int[] padres = new int[paradas.Length];
+
+        for (int i = 0; i < padres.Length; i++)
+        {
+            padres[i] = -1;
+        }
+
+        // Crear nuestra cola con nodos
+        ColaConNodos<int> cola = new ColaConNodos<int>();
+
+        cola.Encolar(origen);
+        visitados[origen] = true;
+
+        // Recorrer el grafo utilizando BFS
+        while (!cola.EstaVacia())
+        {
+            int actual = cola.Desencolar();
+
+            if (actual == destino)
+            {
+                break;
+            }
+
+            foreach (Conexion conexion in adyacencias[actual].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino != -1 && !visitados[vecino])
+                {
+                    visitados[vecino] = true;
+                    padres[vecino] = actual;
+                    cola.Encolar(vecino);
+                }
+            }
+        }
+
+        // Comprobar si existe una ruta
+        if (!visitados[destino])
+        {
+            return Array.Empty<Parada>();
+        }
+
+        // Contar cuantas paradas tiene el camino
+        int cantidad = 0;
+
+        for (int i = destino; i != -1; i = padres[i])
+        {
+            cantidad++;
+        }
+
+        // Crear el arreglo de la ruta encontrada
+        Parada[] ruta = new Parada[cantidad];
+
+        int posicion = cantidad - 1;
+
+        // Reconstruir el camino desde el destino
+        for (int i = destino; i != -1; i = padres[i])
+        {
+            ruta[posicion] = paradas[i];
+            posicion--;
+        }
+
+        return ruta;
+    }
+
 }
