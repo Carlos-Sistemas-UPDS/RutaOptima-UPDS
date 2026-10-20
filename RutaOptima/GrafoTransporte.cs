@@ -224,4 +224,74 @@ public class GrafoTransporte
 
         visitados[actual] = false;
     }
+
+    public Parada[] BuscarRutaDFSIterativo(int idOrigen, int idDestino)
+    {
+        int origen = BuscarIndice(idOrigen);
+        int destino = BuscarIndice(idDestino);
+
+        if (origen == -1 || destino == -1)
+        {
+            return Array.Empty<Parada>();
+        }
+
+        bool[] visitados = new bool[paradas.Length];
+        int[] padres = new int[paradas.Length];
+
+        for (int i = 0; i < padres.Length; i++)
+        {
+            padres[i] = -1;
+        }
+
+        PilaConNodos<int> pila = new PilaConNodos<int>();
+
+        pila.Apilar(origen);
+        visitados[origen] = true;
+
+        while (!pila.EstaVacia())
+        {
+            int actual = pila.Desapilar();
+
+            if (actual == destino)
+            {
+                break;
+            }
+
+            foreach (Conexion conexion in adyacencias[actual].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino != -1 && !visitados[vecino])
+                {
+                    visitados[vecino] = true;
+                    padres[vecino] = actual;
+                    pila.Apilar(vecino);
+                }
+            }
+        }
+
+        if (!visitados[destino])
+        {
+            return Array.Empty<Parada>();
+        }
+
+        int cantidad = 0;
+
+        for (int i = destino; i != -1; i = padres[i])
+        {
+            cantidad++;
+        }
+
+        Parada[] ruta = new Parada[cantidad];
+        int posicion = cantidad - 1;
+
+        for (int i = destino; i != -1; i = padres[i])
+        {
+            ruta[posicion] = paradas[i];
+            posicion--;
+        }
+
+        return ruta;
+    }
+
 }

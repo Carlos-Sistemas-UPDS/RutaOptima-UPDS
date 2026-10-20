@@ -201,3 +201,44 @@ while (!pilaPrueba.EstaVacia())
 }
 
 Console.WriteLine($"Elementos restantes: {pilaPrueba.Contar()}");
+
+//prueba dfs iterativo
+
+Console.WriteLine("\nPRUEBA DE DFS ITERATIVO:");
+
+Parada[] rutaIterativa = grafo.BuscarRutaDFSIterativo(1, 3);
+
+if (rutaIterativa.Length == 0)
+{
+    Console.WriteLine("No se encontro una ruta.");
+}
+else
+{
+    Console.Write("Ruta encontrada: ");
+
+    for (int i = 0; i < rutaIterativa.Length; i++)
+    {
+        Console.Write(rutaIterativa[i].Nombre);
+
+        if (i < rutaIterativa.Length - 1)
+        {
+            Console.Write(" -> ");
+        }
+    }
+
+    Console.WriteLine();
+    Console.WriteLine($"Conexiones recorridas: {rutaIterativa.Length - 1}");
+}
+
+Console.WriteLine("\nPRUEBAS ADICIONALES DFS ITERATIVO:");
+
+// Buscar una parada desde ella misma
+Console.WriteLine($"Mismo origen: {grafo.BuscarRutaDFSIterativo(2, 2).Length} parada");
+
+// Buscar una parada que no existe
+Console.WriteLine($"Parada inexistente: {grafo.BuscarRutaDFSIterativo(1, 99).Length} paradas");
+
+// Buscar una ruta en un grafo sin conexiones
+GrafoTransporte grafoSinRutas = new GrafoTransporte(paradas);
+
+Console.WriteLine($"Sin conexiones: {grafoSinRutas.BuscarRutaDFSIterativo(1, 3).Length} paradas");
