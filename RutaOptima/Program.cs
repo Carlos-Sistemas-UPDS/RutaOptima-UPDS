@@ -64,3 +64,23 @@ grafo.AgregarConexion(1, 2, 2.5, "Linea de prueba");
 grafo.AgregarConexion(2, 3, 1.2, "Linea de prueba");
 
 grafo.MostrarConexiones();
+
+//clase ColaConNodos
+
+Console.WriteLine("\nPRUEBA DE COLA CON NODOS:");
+
+ColaConNodos<Parada> cola = new ColaConNodos<Parada>();
+
+cola.Encolar(paradas[0]);
+cola.Encolar(paradas[1]);
+cola.Encolar(paradas[2]);
+
+Console.WriteLine($"Frente: {cola.VerFrente().Nombre}");
+
+while (!cola.EstaVacia())
+{
+    Parada actual = cola.Desencolar();
+    Console.WriteLine($"Sale: {actual.Nombre}");
+}
+
+Console.WriteLine($"Elementos restantes: {cola.Contar()}");
