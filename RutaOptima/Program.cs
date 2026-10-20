@@ -295,3 +295,44 @@ var sinRuta = grafoDesconectado.BuscarRutaDijkstra(1, 3);
 
 Console.WriteLine(
     $"Sin conexiones: {sinRuta.Ruta.Length} paradas");
+
+
+Console.WriteLine("\nPRUEBA DEL ARBOL DE EXPANSION:");
+
+// Crear cinco paradas para la prueba
+Parada[] paradasArbol = new Parada[5];
+
+paradasArbol[0] = paradas[0];
+paradasArbol[1] = paradas[1];
+paradasArbol[2] = paradas[2];
+paradasArbol[3] = new Parada(4, "Parada D", "Bus");
+paradasArbol[4] = new Parada(5, "Parada E", "Bus");
+
+// Crear el grafo
+GrafoTransporte grafoArbol =
+    new GrafoTransporte(paradasArbol);
+
+// Registrar conexiones ficticias
+grafoArbol.AgregarConexion(1, 2, 2.5, "Linea 1");
+grafoArbol.AgregarConexion(1, 3, 1.2, "Linea 2");
+grafoArbol.AgregarConexion(2, 4, 1.0, "Linea 1");
+grafoArbol.AgregarConexion(3, 4, 1.5, "Linea 2");
+
+// Construir el arbol desde Parada A
+NodoArbol<Parada>? raizArbol =
+    grafoArbol.CrearArbolExpansionBFS(1);
+
+// Mostrar el resultado
+grafoArbol.MostrarArbol(raizArbol);
+
+// Prueba con una parada aislada
+Console.WriteLine("\nPRUEBA DE PARADA AISLADA:");
+
+grafoArbol.MostrarArbol(
+    grafoArbol.CrearArbolExpansionBFS(5));
+
+// Prueba de parada inexistente
+Console.WriteLine("\nPRUEBA DE PARADA INEXISTENTE:");
+
+grafoArbol.MostrarArbol(
+    grafoArbol.CrearArbolExpansionBFS(99));

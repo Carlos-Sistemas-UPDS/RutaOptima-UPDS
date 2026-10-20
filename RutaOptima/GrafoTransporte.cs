@@ -382,4 +382,75 @@ public class GrafoTransporte
 
         return (ruta, distancias[destino]);
     }
+    //arbol expansivo
+
+    public NodoArbol<Parada>? CrearArbolExpansionBFS(int idOrigen)
+    {
+        int origen = BuscarIndice(idOrigen);
+
+        if (origen == -1)
+        {
+            return null;
+        }
+
+        bool[] visitados = new bool[paradas.Length];
+
+        NodoArbol<Parada> raiz =
+            new NodoArbol<Parada>(paradas[origen]);
+
+        ColaConNodos<NodoArbol<Parada>> cola =
+            new ColaConNodos<NodoArbol<Parada>>();
+
+        cola.Encolar(raiz);
+        visitados[origen] = true;
+
+        while (!cola.EstaVacia())
+        {
+            NodoArbol<Parada> actual = cola.Desencolar();
+
+            int indiceActual = BuscarIndice(actual.Dato.Id);
+
+            foreach (Conexion conexion in
+                adyacencias[indiceActual].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino != -1 && !visitados[vecino])
+                {
+                    visitados[vecino] = true;
+
+                    NodoArbol<Parada> hijo =
+                        new NodoArbol<Parada>(paradas[vecino]);
+
+                    actual.Hijos.AgregarAlFinal(hijo);
+
+                    cola.Encolar(hijo);
+                }
+            }
+        }
+
+        return raiz;
+    }
+
+    public void MostrarArbol(NodoArbol<Parada>? raiz)
+    {
+        if (raiz == null)
+        {
+            Console.WriteLine("No se encontro la parada de origen.");
+            return;
+        }
+
+        MostrarNodoArbol(raiz, 0);
+    }
+
+    private void MostrarNodoArbol(NodoArbol<Parada> actual, int nivel)
+    {
+        Console.WriteLine(
+            new string(' ', nivel * 4) + "- " + actual.Dato.Nombre);
+
+        foreach (NodoArbol<Parada> hijo in actual.Hijos.ObtenerElementos())
+        {
+            MostrarNodoArbol(hijo, nivel + 1);
+        }
+    }
 }
