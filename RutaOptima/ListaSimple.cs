@@ -54,4 +54,15 @@ public class ListaSimple<T>
 
         Console.WriteLine("null");
     }
+
+    public IEnumerable<T> ObtenerElementos()
+    {
+        Nodo<T>? actual = cabeza;
+
+        while (actual != null)
+        {
+            yield return actual.Dato;
+            actual = actual.Siguiente;
+        }
+    }
 }

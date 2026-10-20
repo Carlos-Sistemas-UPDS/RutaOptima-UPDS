@@ -53,3 +53,14 @@ Console.WriteLine($"Origen: {paradas[0].Nombre}");
 Console.WriteLine($"Destino: {conexion1.Destino.Nombre}");
 Console.WriteLine($"Distancia: {conexion1.DistanciaKm} km");
 Console.WriteLine($"Linea: {conexion1.Linea}");
+
+//clase Grafo Transporte
+
+Console.WriteLine("\nPRUEBA DEL GRAFO:");
+
+GrafoTransporte grafo = new GrafoTransporte(paradas);
+
+grafo.AgregarConexion(1, 2, 2.5, "Linea de prueba");
+grafo.AgregarConexion(2, 3, 1.2, "Linea de prueba");
+
+grafo.MostrarConexiones();
