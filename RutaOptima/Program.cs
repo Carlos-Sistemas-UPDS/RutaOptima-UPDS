@@ -358,3 +358,24 @@ grafoReporte.AgregarConexion(2, 3, 1.2, "Linea 1");
 
 // Mostrar el reporte
 grafoReporte.MostrarReporteConectividad();
+
+
+Console.WriteLine("\nPRUEBA DEL REGISTRO DE PARADAS:");
+
+bool registrada = grafo.RegistrarParada(4, "Parada D", "Bus");
+
+Console.WriteLine($"Parada registrada: {registrada}");
+
+// Intentar registrar un ID repetido
+bool repetida = grafo.RegistrarParada(4, "Otra Parada", "Bus");
+
+Console.WriteLine($"ID repetido aceptado: {repetida}");
+
+// Conectar la nueva parada
+bool conectada = grafo.AgregarConexion(
+    3, 4, 1.8, "Linea de prueba");
+
+Console.WriteLine($"Conexion registrada: {conectada}");
+
+// Mostrar el grafo actualizado
+grafo.MostrarConexiones();

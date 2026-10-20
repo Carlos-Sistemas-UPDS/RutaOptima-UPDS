@@ -6,8 +6,8 @@ namespace RutaOptima;
 
 public class GrafoTransporte
 {
-    private readonly Parada[] paradas;
-    private readonly ListaSimple<Conexion>[] adyacencias;
+    private Parada[] paradas;
+    private ListaSimple<Conexion>[] adyacencias;
 
     public GrafoTransporte(Parada[] paradas)
     {
@@ -511,5 +511,57 @@ public class GrafoTransporte
 
         Console.WriteLine($"Total de paradas aisladas: {totalAisladas}");
         Console.WriteLine($"Total de paradas con pocas conexiones: {totalPocas}");
+    }
+
+    public bool RegistrarParada(int id, string nombre, string tipo)
+    {
+        // Validar los datos
+        if (id <= 0 || string.IsNullOrWhiteSpace(nombre))
+        {
+            return false;
+        }
+
+        if (tipo != "Bus" &&
+            tipo != "PumaKatari" &&
+            tipo != "Teleferico")
+        {
+            return false;
+        }
+
+        // Evitar identificadores repetidos
+        if (BuscarIndice(id) != -1)
+        {
+            return false;
+        }
+
+        // Obtener la cantidad actual de paradas
+        int cantidadAnterior = paradas.Length;
+
+        // Crear arreglos con una posicion adicional
+        Parada[] nuevasParadas = new Parada[cantidadAnterior + 1];
+
+        ListaSimple<Conexion>[] nuevasAdyacencias =
+            new ListaSimple<Conexion>[cantidadAnterior + 1];
+
+        // Copiar las paradas y conexiones anteriores
+        for (int i = 0; i < cantidadAnterior; i++)
+        {
+            nuevasParadas[i] = paradas[i];
+            nuevasAdyacencias[i] = adyacencias[i];
+        }
+
+        // Registrar la nueva parada
+        nuevasParadas[cantidadAnterior] =
+            new Parada(id, nombre.Trim(), tipo);
+
+        // Crear su lista de conexiones vacia
+        nuevasAdyacencias[cantidadAnterior] =
+            new ListaSimple<Conexion>();
+
+        // Actualizar los arreglos del grafo
+        paradas = nuevasParadas;
+        adyacencias = nuevasAdyacencias;
+
+        return true;
     }
 }
