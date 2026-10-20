@@ -137,3 +137,47 @@ alternativo.AgregarConexion(1, 3, 9.0, "Prueba");
 Parada[] rutaAlternativa = alternativo.BuscarRutaBFS(1, 3);
 
 Console.WriteLine($"Conexiones de la ruta elegida: {rutaAlternativa.Length - 1}");
+
+//prueba DFS
+
+Console.WriteLine("\nPRUEBA DEL ALGORITMO DFS:");
+
+GrafoTransporte grafoDFS = new GrafoTransporte(paradas);
+
+grafoDFS.AgregarConexion(1, 2, 2.5, "Linea de prueba");
+grafoDFS.AgregarConexion(2, 3, 1.2, "Linea de prueba");
+grafoDFS.AgregarConexion(1, 3, 9.0, "Otra linea");
+
+ListaSimple<Parada[]> rutasDFS = grafoDFS.BuscarRutasDFS(1, 3);
+
+Console.WriteLine($"Rutas encontradas: {rutasDFS.Contar()}");
+
+int numero = 1;
+
+foreach (Parada[] ruta in rutasDFS.ObtenerElementos())
+{
+    Console.Write($"Ruta {numero}: ");
+
+    for (int i = 0; i < ruta.Length; i++)
+    {
+        Console.Write(ruta[i].Nombre);
+
+        if (i < ruta.Length - 1)
+        {
+            Console.Write(" -> ");
+        }
+    }
+
+    Console.WriteLine();
+    numero++;
+}
+
+Console.WriteLine("\nPRUEBAS ADICIONALES DFS:");
+
+Console.WriteLine($"Mismo origen: {grafoDFS.BuscarRutasDFS(2, 2).Contar()} ruta");
+
+Console.WriteLine($"Destino inexistente: {grafoDFS.BuscarRutasDFS(1, 99).Contar()} rutas");
+
+GrafoTransporte grafoVacio = new GrafoTransporte(paradas);
+
+Console.WriteLine($"Sin conexiones: {grafoVacio.BuscarRutasDFS(1, 3).Contar()} rutas");

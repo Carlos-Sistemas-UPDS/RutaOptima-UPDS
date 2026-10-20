@@ -160,5 +160,68 @@ public class GrafoTransporte
 
         return ruta;
     }
+    //Buscar rutas DFS
+    public ListaSimple<Parada[]> BuscarRutasDFS(int idOrigen, int idDestino)
+    {
+        ListaSimple<Parada[]> rutas = new ListaSimple<Parada[]>();
 
+        int origen = BuscarIndice(idOrigen);
+        int destino = BuscarIndice(idDestino);
+
+        if (origen == -1 || destino == -1)
+        {
+            return rutas;
+        }
+
+        bool[] visitados = new bool[paradas.Length];
+        Parada[] caminoActual = new Parada[paradas.Length];
+
+        ExplorarDFS(origen, destino, visitados, caminoActual, 0, rutas);
+
+        return rutas;
+    }
+
+    private void ExplorarDFS(
+        int actual,
+        int destino,
+        bool[] visitados,
+        Parada[] caminoActual,
+        int nivel,
+        ListaSimple<Parada[]> rutas)
+    {
+        visitados[actual] = true;
+        caminoActual[nivel] = paradas[actual];
+
+        if (actual == destino)
+        {
+            Parada[] ruta = new Parada[nivel + 1];
+
+            for (int i = 0; i <= nivel; i++)
+            {
+                ruta[i] = caminoActual[i];
+            }
+
+            rutas.AgregarAlFinal(ruta);
+        }
+        else
+        {
+            foreach (Conexion conexion in adyacencias[actual].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino != -1 && !visitados[vecino])
+                {
+                    ExplorarDFS(
+                        vecino,
+                        destino,
+                        visitados,
+                        caminoActual,
+                        nivel + 1,
+                        rutas);
+                }
+            }
+        }
+
+        visitados[actual] = false;
+    }
 }
