@@ -294,4 +294,92 @@ public class GrafoTransporte
         return ruta;
     }
 
+    public (Parada[] Ruta, double DistanciaKm) BuscarRutaDijkstra(
+        int idOrigen, int idDestino)
+    {
+        int origen = BuscarIndice(idOrigen);
+        int destino = BuscarIndice(idDestino);
+
+        if (origen == -1 || destino == -1)
+        {
+            return (Array.Empty<Parada>(), -1);
+        }
+
+        double[] distancias = new double[paradas.Length];
+        int[] padres = new int[paradas.Length];
+        bool[] procesados = new bool[paradas.Length];
+
+        for (int i = 0; i < paradas.Length; i++)
+        {
+            distancias[i] = double.PositiveInfinity;
+            padres[i] = -1;
+        }
+
+        PriorityQueue<int, double> cola =
+            new PriorityQueue<int, double>();
+
+        distancias[origen] = 0;
+        cola.Enqueue(origen, 0);
+
+        while (cola.Count > 0)
+        {
+            int actual = cola.Dequeue();
+
+            if (procesados[actual])
+            {
+                continue;
+            }
+
+            procesados[actual] = true;
+
+            if (actual == destino)
+            {
+                break;
+            }
+
+            foreach (Conexion conexion in adyacencias[actual].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino == -1 || procesados[vecino])
+                {
+                    continue;
+                }
+
+                double nuevaDistancia =
+                    distancias[actual] + conexion.DistanciaKm;
+
+                if (nuevaDistancia < distancias[vecino])
+                {
+                    distancias[vecino] = nuevaDistancia;
+                    padres[vecino] = actual;
+
+                    cola.Enqueue(vecino, nuevaDistancia);
+                }
+            }
+        }
+
+        if (!procesados[destino])
+        {
+            return (Array.Empty<Parada>(), -1);
+        }
+
+        int cantidad = 0;
+
+        for (int i = destino; i != -1; i = padres[i])
+        {
+            cantidad++;
+        }
+
+        Parada[] ruta = new Parada[cantidad];
+        int posicion = cantidad - 1;
+
+        for (int i = destino; i != -1; i = padres[i])
+        {
+            ruta[posicion] = paradas[i];
+            posicion--;
+        }
+
+        return (ruta, distancias[destino]);
+    }
 }

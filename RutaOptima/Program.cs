@@ -242,3 +242,56 @@ Console.WriteLine($"Parada inexistente: {grafo.BuscarRutaDFSIterativo(1, 99).Len
 GrafoTransporte grafoSinRutas = new GrafoTransporte(paradas);
 
 Console.WriteLine($"Sin conexiones: {grafoSinRutas.BuscarRutaDFSIterativo(1, 3).Length} paradas");
+
+
+Console.WriteLine("\nPRUEBA DEL ALGORITMO DIJKSTRA:");
+
+GrafoTransporte grafoDijkstra = new GrafoTransporte(paradas);
+
+grafoDijkstra.AgregarConexion(1, 2, 2.5, "Linea de prueba");
+grafoDijkstra.AgregarConexion(2, 3, 1.2, "Linea de prueba");
+grafoDijkstra.AgregarConexion(1, 3, 9.0, "Otra linea");
+
+(Parada[] rutaDijkstra, double distanciaTotal) =
+    grafoDijkstra.BuscarRutaDijkstra(1, 3);
+
+if (rutaDijkstra.Length == 0)
+{
+    Console.WriteLine("No se encontro una ruta.");
+}
+else
+{
+    Console.Write("Ruta mas corta: ");
+
+    for (int i = 0; i < rutaDijkstra.Length; i++)
+    {
+        Console.Write(rutaDijkstra[i].Nombre);
+
+        if (i < rutaDijkstra.Length - 1)
+        {
+            Console.Write(" -> ");
+        }
+    }
+
+    Console.WriteLine();
+    Console.WriteLine($"Distancia total: {distanciaTotal:0.##} km");
+}
+
+Console.WriteLine("\nPRUEBAS ADICIONALES DIJKSTRA:");
+
+var mismoOrigen = grafoDijkstra.BuscarRutaDijkstra(2, 2);
+
+Console.WriteLine(
+    $"Mismo origen: {mismoOrigen.Ruta.Length} parada, {mismoOrigen.DistanciaKm} km");
+
+var inexistente = grafoDijkstra.BuscarRutaDijkstra(1, 99);
+
+Console.WriteLine(
+    $"Parada inexistente: {inexistente.Ruta.Length} paradas");
+
+GrafoTransporte grafoDesconectado = new GrafoTransporte(paradas);
+
+var sinRuta = grafoDesconectado.BuscarRutaDijkstra(1, 3);
+
+Console.WriteLine(
+    $"Sin conexiones: {sinRuta.Ruta.Length} paradas");
