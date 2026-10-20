@@ -453,4 +453,63 @@ public class GrafoTransporte
             MostrarNodoArbol(hijo, nivel + 1);
         }
     }
+
+    public void MostrarReporteConectividad()
+    {
+        int total = paradas.Length;
+
+        int[] cantidadConexiones = new int[total];
+        bool[,] contadas = new bool[total, total];
+
+        // Recorrer las listas de adyacencia
+        for (int i = 0; i < total; i++)
+        {
+            foreach (Conexion conexion in adyacencias[i].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino == -1 || vecino == i || contadas[i, vecino])
+                {
+                    continue;
+                }
+
+                contadas[i, vecino] = true;
+                contadas[vecino, i] = true;
+
+                cantidadConexiones[i]++;
+                cantidadConexiones[vecino]++;
+            }
+        }
+
+        int totalAisladas = 0;
+        int totalPocas = 0;
+
+        Console.WriteLine("\nREPORTE DE CONECTIVIDAD:");
+
+        for (int i = 0; i < total; i++)
+        {
+            string estado;
+
+            if (cantidadConexiones[i] == 0)
+            {
+                estado = "AISLADA";
+                totalAisladas++;
+            }
+            else if (cantidadConexiones[i] == 1)
+            {
+                estado = "POCAS CONEXIONES";
+                totalPocas++;
+            }
+            else
+            {
+                estado = "CONECTADA";
+            }
+
+            Console.WriteLine(
+                $"{paradas[i].Nombre}: {cantidadConexiones[i]} conexion(es) - {estado}");
+        }
+
+        Console.WriteLine($"Total de paradas aisladas: {totalAisladas}");
+        Console.WriteLine($"Total de paradas con pocas conexiones: {totalPocas}");
+    }
 }

@@ -336,3 +336,25 @@ Console.WriteLine("\nPRUEBA DE PARADA INEXISTENTE:");
 
 grafoArbol.MostrarArbol(
     grafoArbol.CrearArbolExpansionBFS(99));
+
+
+Console.WriteLine("\nPRUEBA DEL REPORTE DE CONECTIVIDAD:");
+
+// Crear cuatro paradas
+Parada[] paradasReporte = new Parada[4];
+
+paradasReporte[0] = paradas[0];
+paradasReporte[1] = paradas[1];
+paradasReporte[2] = paradas[2];
+paradasReporte[3] = new Parada(4, "Parada D", "Bus");
+
+// Crear un grafo de prueba
+GrafoTransporte grafoReporte =
+    new GrafoTransporte(paradasReporte);
+
+// Registrar conexiones
+grafoReporte.AgregarConexion(1, 2, 2.5, "Linea 1");
+grafoReporte.AgregarConexion(2, 3, 1.2, "Linea 1");
+
+// Mostrar el reporte
+grafoReporte.MostrarReporteConectividad();
