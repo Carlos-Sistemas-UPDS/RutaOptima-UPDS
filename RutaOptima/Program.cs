@@ -1,5 +1,30 @@
 ﻿using RutaOptima;
 
+
+bool usarMenu = true;
+
+if (usarMenu)
+{
+    Parada[] paradasMenu = new Parada[3];
+
+    paradasMenu[0] = new Parada(1, "Parada A", "Bus");
+    paradasMenu[1] = new Parada(2, "Parada B", "PumaKatari");
+    paradasMenu[2] = new Parada(3, "Estacion C", "Teleferico");
+
+    GrafoTransporte grafoMenu =
+        new GrafoTransporte(paradasMenu);
+
+    grafoMenu.AgregarConexion(1, 2, 2.5, "Linea de prueba");
+    grafoMenu.AgregarConexion(2, 3, 1.2, "Linea de prueba");
+
+    MenuConsola menu = new MenuConsola(grafoMenu);
+
+    menu.Iniciar();
+
+    return;
+}
+
+
 Console.WriteLine("==================================");
 Console.WriteLine("         RUTAOPTIMA");
 Console.WriteLine(" Transporte Publico de La Paz");
