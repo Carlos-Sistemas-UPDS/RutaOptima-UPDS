@@ -181,3 +181,23 @@ Console.WriteLine($"Destino inexistente: {grafoDFS.BuscarRutasDFS(1, 99).Contar(
 GrafoTransporte grafoVacio = new GrafoTransporte(paradas);
 
 Console.WriteLine($"Sin conexiones: {grafoVacio.BuscarRutasDFS(1, 3).Contar()} rutas");
+
+//clase pilas con nodos
+
+Console.WriteLine("\nPRUEBA DE PILA CON NODOS:");
+
+PilaConNodos<Parada> pilaPrueba = new PilaConNodos<Parada>();
+
+pilaPrueba.Apilar(paradas[0]);
+pilaPrueba.Apilar(paradas[1]);
+pilaPrueba.Apilar(paradas[2]);
+
+Console.WriteLine($"Cima: {pilaPrueba.VerCima().Nombre}");
+
+while (!pilaPrueba.EstaVacia())
+{
+    Parada actualPila = pilaPrueba.Desapilar();
+    Console.WriteLine($"Sale: {actualPila.Nombre}");
+}
+
+Console.WriteLine($"Elementos restantes: {pilaPrueba.Contar()}");
