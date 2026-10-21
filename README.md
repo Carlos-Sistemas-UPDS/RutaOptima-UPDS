@@ -17,13 +17,13 @@
 
 ---
 
-## PROYECTO SOCIOFORMATIVO
+## Datos del proyecto
 
 | Campo | Información |
 |:---|:---|
 | Universidad | Universidad Privada Domingo Savio (UPDS) |
 | Carrera | Ingeniería de Sistemas |
-| Asignatura | Estructura de Datos — 5to. Semestre |
+| Asignatura | Estructura de Datos — 5to. semestre |
 | Autor | Carlos Alberto Alvarado Ramos |
 | Docente | Msc. Lic. Andrés Grover Albino Chambi |
 | Proyecto | Proyecto Final Integrador |
@@ -239,16 +239,45 @@ Se probaron entradas no numéricas, distancias negativas, identificadores repeti
 
 ## 9. Evidencias visuales
 
-Se reservaron los siguientes espacios para añadir **capturas reales de Visual Studio y de la consola**, obtenidas durante la ejecución del proyecto:
+Las siguientes capturas provienen de **ejecuciones reales de RutaOptima en Visual Studio 2026**, realizadas durante las pruebas del proyecto. Se recortaron para enfocar la salida de consola; los resultados no fueron modificados.
 
-| Evidencia | Descripción |
-|:---|:---|
-| Captura 1 | Menú principal con sus opciones. |
-| Captura 2 | Comparación de los resultados BFS, DFS y Dijkstra. |
-| Captura 3 | Árbol de expansión y reporte de conectividad. |
-| Captura 4 | Cálculo de transbordos y validaciones. |
+### 9.1 Menú principal
 
-> Para incluir las imágenes antes de la entrega, crea una carpeta `docs/capturas/` y agrega allí archivos PNG. Luego añade enlaces Markdown del tipo `![Menú principal](docs/capturas/menu-principal.png)` en esta sección. No se muestran imágenes inexistentes.
+El menú ofrece el registro de paradas y conexiones, las búsquedas de rutas y las herramientas de análisis del grafo.
+
+![Menú principal de RutaOptima](docs/capturas/menu-principal.png)
+
+### 9.2 Búsqueda de ruta con BFS
+
+BFS seleccionó la conexión directa de **Parada A a Estación C**, con **1 conexión**, en la red de prueba.
+
+![Ruta con BFS: una conexión](docs/capturas/busqueda-bfs.png)
+
+### 9.3 Exploración DFS y ruta mínima con Dijkstra
+
+DFS encontró **2 caminos simples** entre A y C. Dijkstra eligió el camino **A → B → C**, con **3,7 km**, frente al tramo directo de 9 km.
+
+![Pruebas de DFS y Dijkstra](docs/capturas/busquedas-dfs-dijkstra.png)
+
+### 9.4 Árbol de expansión y conectividad
+
+El árbol construido desde A muestra las paradas alcanzables sin repetir nodos. El reporte indicó **0 paradas aisladas** y **2 con pocas conexiones** en la red de esa prueba.
+
+![Árbol de expansión y reporte de conectividad](docs/capturas/arbol-conectividad.png)
+
+### 9.5 Ruta con menos transbordos
+
+Se obtuvo la ruta **A → B → C → E**, utilizando la misma línea en sus tres tramos: **0 transbordos**.
+
+![Ruta con cero transbordos](docs/capturas/menos-transbordos.png)
+
+### 9.6 Validaciones de entradas
+
+El programa rechazó letras introducidas en campos numéricos y una distancia negativa; luego permitió registrar una conexión válida sin cerrar la aplicación.
+
+![Validaciones del menú interactivo](docs/capturas/validacion-datos.png)
+
+> **Nota:** las paradas, líneas y distancias de las evidencias corresponden a datos ficticios de demostración, no a información oficial del sistema de transporte de La Paz.
 
 ## 10. Limitaciones y mejoras futuras
 
