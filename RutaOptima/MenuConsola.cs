@@ -222,38 +222,51 @@ public class MenuConsola
     }
 
     // LEER UN NUMERO ENTERO
+
     private int LeerEntero(string mensaje)
     {
-        Console.Write(mensaje);
-
-        string? entrada = Console.ReadLine();
-
-        if (int.TryParse(entrada, out int numero))
+        while (true)
         {
-            return numero;
-        }
+            Console.Write(mensaje);
 
-        return -1;
+            string? entrada = Console.ReadLine();
+
+            if (int.TryParse(entrada, out int numero))
+            {
+                return numero;
+            }
+
+            Console.WriteLine(
+                "Dato invalido. Ingrese un numero entero.");
+        }
     }
 
     // LEER UNA DISTANCIA DECIMAL
+
     private double LeerDistancia(string mensaje)
     {
-        Console.Write(mensaje);
-
-        string? entrada = Console.ReadLine();
-
-        if (double.TryParse(
-            entrada?.Replace(',', '.'),
-            NumberStyles.Float,
-            CultureInfo.InvariantCulture,
-            out double numero))
+        while (true)
         {
-            return numero;
-        }
+            Console.Write(mensaje);
 
-        return -1;
+            string? entrada = Console.ReadLine();
+
+            if (double.TryParse(
+                entrada?.Replace(',', '.'),
+                NumberStyles.Float,
+                CultureInfo.InvariantCulture,
+                out double numero)
+                && double.IsFinite(numero)
+                && numero > 0)
+            {
+                return numero;
+            }
+
+            Console.WriteLine(
+                "Distancia invalida. Ingrese un numero mayor que cero.");
+        }
     }
+
 
     // MOSTRAR LAS PARADAS DE UNA RUTA
     private void MostrarRuta(Parada[] ruta)
