@@ -34,30 +34,51 @@ public class GrafoTransporte
         return -1;
     }
 
+
     public bool AgregarConexion(int idOrigen, int idDestino,
         double distanciaKm, string linea, bool bidireccional = true)
     {
         int origen = BuscarIndice(idOrigen);
         int destino = BuscarIndice(idDestino);
 
+        // Validar que existan las paradas
         if (origen == -1 || destino == -1 || origen == destino)
         {
             return false;
         }
 
-        if (distanciaKm <= 0 || !double.IsFinite(distanciaKm)
-            || string.IsNullOrWhiteSpace(linea))
+        // Validar distancia y nombre de linea
+        if (distanciaKm <= 0 ||
+            !double.IsFinite(distanciaKm) ||
+            string.IsNullOrWhiteSpace(linea))
         {
             return false;
         }
 
-        adyacencias[origen].AgregarAlFinal(
-            new Conexion(paradas[destino], distanciaKm, linea));
+        string lineaLimpia = linea.Trim();
 
+        // Evitar conexiones duplicadas
+        if (ExisteConexion(origen, idDestino, lineaLimpia))
+        {
+            return false;
+        }
+
+        // Comprobar tambien el sentido contrario
+        if (bidireccional &&
+            ExisteConexion(destino, idOrigen, lineaLimpia))
+        {
+            return false;
+        }
+
+        // Agregar la conexion de origen a destino
+        adyacencias[origen].AgregarAlFinal(
+            new Conexion(paradas[destino], distanciaKm, lineaLimpia));
+
+        // Agregar el regreso cuando corresponda
         if (bidireccional)
         {
             adyacencias[destino].AgregarAlFinal(
-                new Conexion(paradas[origen], distanciaKm, linea));
+                new Conexion(paradas[origen], distanciaKm, lineaLimpia));
         }
 
         return true;
@@ -684,5 +705,20 @@ public class GrafoTransporte
 
         return (ruta.ToArray(), lineas.ToArray(),
             mejores[fin].Cambios);
+    }
+    private bool ExisteConexion(int indiceOrigen, int idDestino, string linea)
+    {
+        foreach (Conexion conexion in
+            adyacencias[indiceOrigen].ObtenerElementos())
+        {
+            if (conexion.Destino.Id == idDestino &&
+                string.Equals(conexion.Linea, linea,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
