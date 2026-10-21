@@ -8,7 +8,7 @@
 
 ### Optimizador de Rutas del Transporte Público de La Paz
 
-**Proyecto Final Integrador 2 · Estructura de Datos**  
+**Proyecto Final Integrador · Estructura de Datos**  
 **Universidad Privada Domingo Savio (UPDS - La Paz) · Gestión 2026**
 
 *Una aplicación académica de consola para analizar caminos, distancias y cambios de línea utilizando grafos.*
@@ -17,13 +17,13 @@
 
 ---
 
-## Datos del proyecto
+## PROYECTO SOCIOFORMATIVO
 
 | Campo | Información |
 |:---|:---|
 | Universidad | Universidad Privada Domingo Savio (UPDS) |
 | Carrera | Ingeniería de Sistemas |
-| Asignatura | Estructura de Datos — 5.º semestre |
+| Asignatura | Estructura de Datos — 5to. Semestre |
 | Autor | Carlos Alberto Alvarado Ramos |
 | Docente | Msc. Lic. Andrés Grover Albino Chambi |
 | Proyecto | Proyecto Final Integrador |
