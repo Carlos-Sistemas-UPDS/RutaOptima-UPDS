@@ -564,4 +564,125 @@ public class GrafoTransporte
 
         return true;
     }
+
+    public (Parada[] Ruta, string[] Lineas, int Transbordos)
+        BuscarRutaMenosTransbordos(int idOrigen, int idDestino)
+    {
+        int origen = BuscarIndice(idOrigen);
+        int destino = BuscarIndice(idDestino);
+
+        if (origen == -1 || destino == -1)
+        {
+            return (Array.Empty<Parada>(), Array.Empty<string>(), -1);
+        }
+
+        // Cada estado guarda la parada y la linea utilizada
+        var inicio = (Indice: origen, Linea: "");
+
+        // Mejor cantidad de transbordos y tramos conocidos
+        var mejores = new Dictionary<
+            (int Indice, string Linea),
+            (int Cambios, int Tramos)>();
+
+        // Guardar desde que estado llegamos a otro
+        var anteriores = new Dictionary<
+            (int Indice, string Linea),
+            (int Indice, string Linea)>();
+
+        // Primero menos transbordos, despues menos tramos
+        var pendientes = new PriorityQueue<
+            (int Indice, string Linea),
+            (int Cambios, int Tramos)>();
+
+        mejores[inicio] = (0, 0);
+        pendientes.Enqueue(inicio, (0, 0));
+
+        bool encontrado = false;
+        var fin = inicio;
+
+        while (pendientes.Count > 0)
+        {
+            pendientes.TryDequeue(
+                out var actual, out var prioridad);
+
+            if (!mejores.TryGetValue(actual, out var costo)
+                || costo != prioridad)
+            {
+                continue;
+            }
+
+            if (actual.Indice == destino)
+            {
+                encontrado = true;
+                fin = actual;
+                break;
+            }
+
+            foreach (Conexion conexion in
+                adyacencias[actual.Indice].ObtenerElementos())
+            {
+                int vecino = BuscarIndice(conexion.Destino.Id);
+
+                if (vecino == -1)
+                {
+                    continue;
+                }
+
+                string linea = conexion.Linea.Trim();
+
+                var siguiente = (Indice: vecino, Linea: linea);
+
+                int cambio = 0;
+
+                if (actual.Linea != "" &&
+                    !string.Equals(actual.Linea, linea,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    cambio = 1;
+                }
+
+                var nuevoCosto = (
+                    Cambios: costo.Cambios + cambio,
+                    Tramos: costo.Tramos + 1);
+
+                if (!mejores.TryGetValue(siguiente, out var anterior)
+                    || nuevoCosto.Cambios < anterior.Cambios
+                    || (nuevoCosto.Cambios == anterior.Cambios
+                        && nuevoCosto.Tramos < anterior.Tramos))
+                {
+                    mejores[siguiente] = nuevoCosto;
+                    anteriores[siguiente] = actual;
+
+                    pendientes.Enqueue(siguiente, nuevoCosto);
+                }
+            }
+        }
+
+        if (!encontrado)
+        {
+            return (Array.Empty<Parada>(), Array.Empty<string>(), -1);
+        }
+
+        // Reconstruir la ruta y las lineas utilizadas
+        List<Parada> ruta = new List<Parada>();
+        List<string> lineas = new List<string>();
+
+        var paso = fin;
+
+        while (paso != inicio)
+        {
+            ruta.Add(paradas[paso.Indice]);
+            lineas.Add(paso.Linea);
+
+            paso = anteriores[paso];
+        }
+
+        ruta.Add(paradas[origen]);
+
+        ruta.Reverse();
+        lineas.Reverse();
+
+        return (ruta.ToArray(), lineas.ToArray(),
+            mejores[fin].Cambios);
+    }
 }

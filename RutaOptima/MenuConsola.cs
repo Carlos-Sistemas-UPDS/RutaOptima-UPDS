@@ -33,6 +33,7 @@ public class MenuConsola
             Console.WriteLine("6. Calcular ruta minima con Dijkstra");
             Console.WriteLine("7. Mostrar arbol de expansion");
             Console.WriteLine("8. Reporte de conectividad");
+            Console.WriteLine("9. Buscar ruta con menos transbordos");
             Console.WriteLine("0. Salir");
 
             opcion = LeerEntero("Seleccione una opcion: ");
@@ -69,6 +70,10 @@ public class MenuConsola
 
                 case 8:
                     grafo.MostrarReporteConectividad();
+                    break;
+
+                case 9:
+                    BuscarMenosTransbordos();
                     break;
 
                 case 0:
@@ -276,5 +281,38 @@ public class MenuConsola
             grafo.CrearArbolExpansionBFS(origen);
 
         grafo.MostrarArbol(raiz);
+    }
+
+    private void BuscarMenosTransbordos()
+    {
+        Console.WriteLine("\nRUTA CON MENOS TRANSBORDOS");
+
+        int origen = LeerEntero("ID de origen: ");
+        int destino = LeerEntero("ID de destino: ");
+
+        var resultado =
+            grafo.BuscarRutaMenosTransbordos(origen, destino);
+
+        if (resultado.Ruta.Length == 0)
+        {
+            Console.WriteLine("No se encontro una ruta.");
+            return;
+        }
+
+        Console.Write("Ruta encontrada: ");
+        MostrarRuta(resultado.Ruta);
+
+        Console.WriteLine(
+            $"Total de transbordos: {resultado.Transbordos}");
+
+        Console.WriteLine("Lineas utilizadas:");
+
+        for (int i = 0; i < resultado.Lineas.Length; i++)
+        {
+            Console.WriteLine(
+                $"{resultado.Ruta[i].Nombre} -> " +
+                $"{resultado.Ruta[i + 1].Nombre}: " +
+                $"{resultado.Lineas[i]}");
+        }
     }
 }
