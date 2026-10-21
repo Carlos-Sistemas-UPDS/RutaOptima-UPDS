@@ -26,7 +26,7 @@
 | Asignatura | Estructura de Datos — 5.º semestre |
 | Autor | Carlos Alberto Alvarado Ramos |
 | Docente | Msc. Lic. Andrés Grover Albino Chambi |
-| Proyecto | Proyecto Socioformativo |
+| Proyecto | Proyecto Final Integrador |
 | Modalidad | Desarrollo individual |
 | Lenguaje y plataforma | C# — .NET 10 |
 | Entorno de desarrollo | Visual Studio 2026 |
@@ -284,6 +284,6 @@ Este proyecto se desarrolló de forma individual con Git y GitHub. Las funcional
 <div align="center">
 
 **Universidad Privada Domingo Savio · Ingeniería de Sistemas**  
-**Proyecto Socioformativo — Estructura de Datos · 2026**
+**Proyecto Final Integrador — Estructura de Datos · 2026**
 
 </div>
