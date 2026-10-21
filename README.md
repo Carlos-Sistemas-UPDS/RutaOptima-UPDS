@@ -9,7 +9,7 @@
 ### Optimizador de Rutas del Transporte Público de La Paz
 
 **Proyecto Final Integrador 2 · Estructura de Datos**  
-**Universidad Privada Domingo Savio (UPDS) · Gestión 2026**
+**Universidad Privada Domingo Savio (UPDS - La Paz) · Gestión 2026**
 
 *Una aplicación académica de consola para analizar caminos, distancias y cambios de línea utilizando grafos.*
 
