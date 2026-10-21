@@ -13,6 +13,7 @@ public class MenuConsola
     }
 
     // MENU PRINCIPAL
+
     public void Iniciar()
     {
         int opcion;
@@ -20,15 +21,18 @@ public class MenuConsola
         do
         {
             Console.WriteLine("\n===================================");
-            Console.WriteLine("            RUTA OPTIMA");
+            Console.WriteLine("            RUTAOPTIMA");
             Console.WriteLine("  Transporte Publico de La Paz");
             Console.WriteLine("===================================");
+
             Console.WriteLine("1. Registrar nueva parada");
             Console.WriteLine("2. Registrar conexion");
             Console.WriteLine("3. Mostrar paradas y conexiones");
             Console.WriteLine("4. Buscar ruta con BFS");
             Console.WriteLine("5. Explorar rutas con DFS");
             Console.WriteLine("6. Calcular ruta minima con Dijkstra");
+            Console.WriteLine("7. Mostrar arbol de expansion");
+            Console.WriteLine("8. Reporte de conectividad");
             Console.WriteLine("0. Salir");
 
             opcion = LeerEntero("Seleccione una opcion: ");
@@ -57,6 +61,14 @@ public class MenuConsola
 
                 case 6:
                     BuscarDijkstra();
+                    break;
+
+                case 7:
+                    MostrarArbolExpansion();
+                    break;
+
+                case 8:
+                    grafo.MostrarReporteConectividad();
                     break;
 
                 case 0:
@@ -252,5 +264,17 @@ public class MenuConsola
         }
 
         Console.WriteLine();
+    }
+
+    private void MostrarArbolExpansion()
+    {
+        Console.WriteLine("\nARBOL DE EXPANSION");
+
+        int origen = LeerEntero("ID de la parada de origen: ");
+
+        NodoArbol<Parada>? raiz =
+            grafo.CrearArbolExpansionBFS(origen);
+
+        grafo.MostrarArbol(raiz);
     }
 }
