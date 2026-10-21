@@ -1,16 +1,18 @@
-﻿using System.Globalization;
+﻿
+using System.Globalization;
 
 namespace RutaOptima;
 
 public class MenuConsola
 {
-    private GrafoTransporte grafo;
+    private readonly GrafoTransporte grafo;
 
     public MenuConsola(GrafoTransporte grafo)
     {
         this.grafo = grafo;
     }
 
+    // MENU PRINCIPAL
     public void Iniciar()
     {
         int opcion;
@@ -18,12 +20,15 @@ public class MenuConsola
         do
         {
             Console.WriteLine("\n===================================");
-            Console.WriteLine("            RUTAOPTIMA");
+            Console.WriteLine("            RUTA OPTIMA");
             Console.WriteLine("  Transporte Publico de La Paz");
             Console.WriteLine("===================================");
             Console.WriteLine("1. Registrar nueva parada");
             Console.WriteLine("2. Registrar conexion");
             Console.WriteLine("3. Mostrar paradas y conexiones");
+            Console.WriteLine("4. Buscar ruta con BFS");
+            Console.WriteLine("5. Explorar rutas con DFS");
+            Console.WriteLine("6. Calcular ruta minima con Dijkstra");
             Console.WriteLine("0. Salir");
 
             opcion = LeerEntero("Seleccione una opcion: ");
@@ -42,6 +47,18 @@ public class MenuConsola
                     grafo.MostrarConexiones();
                     break;
 
+                case 4:
+                    BuscarBFS();
+                    break;
+
+                case 5:
+                    BuscarDFS();
+                    break;
+
+                case 6:
+                    BuscarDijkstra();
+                    break;
+
                 case 0:
                     Console.WriteLine("Gracias por utilizar RutaOptima.");
                     break;
@@ -54,6 +71,7 @@ public class MenuConsola
         } while (opcion != 0);
     }
 
+    // REGISTRAR UNA NUEVA PARADA
     private void RegistrarParada()
     {
         Console.WriteLine("\nREGISTRAR PARADA");
@@ -85,6 +103,7 @@ public class MenuConsola
             : "No se pudo registrar. Revise los datos o el ID.");
     }
 
+    // REGISTRAR UNA CONEXION
     private void RegistrarConexion()
     {
         Console.WriteLine("\nREGISTRAR CONEXION");
@@ -105,9 +124,91 @@ public class MenuConsola
             : "No se pudo registrar la conexion. Revise los datos.");
     }
 
+    // BUSCAR RUTA CON BFS
+    private void BuscarBFS()
+    {
+        Console.WriteLine("\nBUSQUEDA DE RUTA CON BFS");
+
+        int origen = LeerEntero("ID de origen: ");
+        int destino = LeerEntero("ID de destino: ");
+
+        Parada[] ruta = grafo.BuscarRutaBFS(origen, destino);
+
+        if (ruta.Length == 0)
+        {
+            Console.WriteLine("No se encontro una ruta.");
+            return;
+        }
+
+        Console.Write("Ruta BFS: ");
+        MostrarRuta(ruta);
+
+        Console.WriteLine(
+            $"Conexiones recorridas: {ruta.Length - 1}");
+    }
+
+    // EXPLORAR RUTAS CON DFS
+    private void BuscarDFS()
+    {
+        Console.WriteLine("\nEXPLORAR RUTAS CON DFS");
+
+        int origen = LeerEntero("ID de origen: ");
+        int destino = LeerEntero("ID de destino: ");
+
+        ListaSimple<Parada[]> rutas =
+            grafo.BuscarRutasDFS(origen, destino);
+
+        if (rutas.EstaVacia())
+        {
+            Console.WriteLine("No se encontraron rutas.");
+            return;
+        }
+
+        int numero = 1;
+
+        foreach (Parada[] ruta in rutas.ObtenerElementos())
+        {
+            Console.Write($"Ruta {numero}: ");
+
+            MostrarRuta(ruta);
+
+            numero++;
+        }
+
+        Console.WriteLine(
+            $"Total de rutas encontradas: {rutas.Contar()}");
+    }
+
+    // BUSCAR RUTA MINIMA CON DIJKSTRA
+    private void BuscarDijkstra()
+    {
+        Console.WriteLine("\nRUTA MINIMA CON DIJKSTRA");
+
+        int origen = LeerEntero("ID de origen: ");
+        int destino = LeerEntero("ID de destino: ");
+
+        var resultado =
+            grafo.BuscarRutaDijkstra(origen, destino);
+
+        if (resultado.Ruta.Length == 0)
+        {
+            Console.WriteLine("No se encontro una ruta.");
+            return;
+        }
+
+        Console.Write("Ruta mas corta: ");
+
+        MostrarRuta(resultado.Ruta);
+
+        Console.WriteLine(
+            $"Distancia total: {resultado.DistanciaKm:0.##} km");
+    }
+
+    // LEER UN NUMERO ENTERO
     private int LeerEntero(string mensaje)
     {
         Console.Write(mensaje);
+
         string? entrada = Console.ReadLine();
 
         if (int.TryParse(entrada, out int numero))
@@ -118,9 +219,11 @@ public class MenuConsola
         return -1;
     }
 
+    // LEER UNA DISTANCIA DECIMAL
     private double LeerDistancia(string mensaje)
     {
         Console.Write(mensaje);
+
         string? entrada = Console.ReadLine();
 
         if (double.TryParse(
@@ -133,5 +236,21 @@ public class MenuConsola
         }
 
         return -1;
+    }
+
+    // MOSTRAR LAS PARADAS DE UNA RUTA
+    private void MostrarRuta(Parada[] ruta)
+    {
+        for (int i = 0; i < ruta.Length; i++)
+        {
+            Console.Write(ruta[i].Nombre);
+
+            if (i < ruta.Length - 1)
+            {
+                Console.Write(" -> ");
+            }
+        }
+
+        Console.WriteLine();
     }
 }
