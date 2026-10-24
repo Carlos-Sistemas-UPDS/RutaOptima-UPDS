@@ -163,10 +163,15 @@ El grafo admite conexiones **bidireccionales por defecto**; al agregarlas, se gu
 
 ```text
 RutaOptima-UPDS/
+│
 ├── README.md
 ├── RutaOptima.slnx
+├── .gitignore
+├── .gitattributes
+│
 ├── img/
 │   └── logo-upds.png
+│
 ├── docs/
 │   └── capturas/
 │       ├── menu-principal.png
@@ -175,19 +180,28 @@ RutaOptima-UPDS/
 │       ├── arbol-conectividad.png
 │       ├── menos-transbordos.png
 │       └── validacion-datos.png
+│
 └── RutaOptima/
+    │
     ├── RutaOptima.csproj
     ├── Program.cs
-    ├── MenuConsola.cs
-    ├── Parada.cs
-    ├── Conexion.cs
-    ├── Nodo.cs
-    ├── ListaSimple.cs
-    ├── ColaConNodos.cs
-    ├── PilaConNodos.cs
-    ├── NodoArbol.cs
-    └── GrafoTransporte.cs
-```
+    │
+    ├── Modelos/
+    │   ├── Parada.cs
+    │   └── Conexion.cs
+    │
+    ├── Estructuras/
+    │   ├── Nodo.cs
+    │   ├── ListaSimple.cs
+    │   ├── ColaConNodos.cs
+    │   ├── PilaConNodos.cs
+    │   └── NodoArbol.cs
+    │
+    ├── Grafos/
+    │   └── GrafoTransporte.cs
+    │
+    └── Interfaz/
+        └── MenuConsola.cs
 
 ### 5.3 Responsabilidades de las clases
 
