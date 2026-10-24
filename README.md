@@ -202,7 +202,7 @@ RutaOptima-UPDS/
     │
     └── Interfaz/
         └── MenuConsola.cs
-
+```
 ### 5.3 Responsabilidades de las clases
 
 | Archivo | Responsabilidad técnica |
